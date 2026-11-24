@@ -1,0 +1,46 @@
+@using System.Data
+@{ 
+    ViewBag.Title = "Theo dõi đơn hàng";
+    DataTable order = ViewBag.Order as DataTable;
+    DataTable history = ViewBag.History as DataTable;
+    DataRow row = order.Rows[0];
+    string current = Convert.ToString(row["TRANG_THAI"]);
+}
+<div class="page-heading"><div><h1>Theo dõi đơn hàng #@row["MA_DH"]</h1><p>Thông tin đơn hàng và toàn bộ lịch sử trạng thái.</p></div><a class="btn secondary" href="@Url.Action("Index")">← Danh sách đơn</a></div>
+<div class="tracking-grid">
+    <div class="panel detail-panel">
+        <h2>Thông tin đơn hàng</h2>
+        <div class="detail-row"><span>Khách hàng</span><b>@row["TEN_KH"]</b></div>
+        <div class="detail-row"><span>Số điện thoại</span><b>@row["SDT"]</b></div>
+        <div class="detail-row"><span>Ngày đặt</span><b>@Convert.ToDateTime(row["NGAY_DAT"]).ToString("dd/MM/yyyy HH:mm")</b></div>
+        <div class="detail-row"><span>Trạng thái</span><b>@current</b></div>
+        <div class="detail-row"><span>Tổng tiền</span><b class="amount">@Convert.ToDecimal(row["TONG_TIEN"]).ToString("N0") đ</b></div>
+        <div class="detail-row"><span>Thông tin mở rộng JSON</span><code>@(row["THONG_TIN_MO_RONG"] == DBNull.Value ? "Chưa có" : Convert.ToString(row["THONG_TIN_MO_RONG"]))</code></div>
+    </div>
+    <div class="panel detail-panel">
+        <h2>Cập nhật trạng thái</h2>
+        <p class="muted">Thao tác gọi procedure CAP_NHAT_TRANG_THAI và ghi lịch sử trong cùng giao dịch.</p>
+        @using (Html.BeginForm("UpdateStatus","Orders",FormMethod.Post)) {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="maDh" value="@row["MA_DH"]" />
+            <label>Trạng thái mới</label>
+            <select name="trangThai" required>
+                <option value="MOI_TAO">Mới tạo</option><option value="DANG_XU_LY">Đang xử lý</option>
+                <option value="DANG_VAN_CHUYEN">Đang vận chuyển</option><option value="DA_GIAO">Đã giao</option><option value="DA_HUY">Đã hủy</option>
+            </select>
+            <label>Ghi chú</label><textarea name="ghiChu" rows="3" maxlength="500" placeholder="Nhập ghi chú cập nhật..."></textarea>
+            <button class="btn primary" type="submit">Lưu trạng thái</button>
+        }
+    </div>
+</div>
+<div class="panel history-panel">
+    <h2>Lịch sử vận chuyển</h2>
+    @if (history.Rows.Count == 0) { <p class="muted">Chưa có lịch sử.</p> }
+    else {
+        <div class="timeline">
+        @foreach (DataRow h in history.Rows) {
+            <div class="timeline-item"><span class="timeline-dot"></span><div><b>@h["TRANG_THAI"]</b><small>@Convert.ToDateTime(h["THOI_DIEM"]).ToString("dd/MM/yyyy HH:mm:ss")</small><p>@(h["GHI_CHU"] == DBNull.Value ? "Không có ghi chú" : Convert.ToString(h["GHI_CHU"]))</p></div></div>
+        }
+        </div>
+    }
+</div>

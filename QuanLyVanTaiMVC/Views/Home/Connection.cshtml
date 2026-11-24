@@ -1,0 +1,11 @@
+@{ ViewBag.Title = "Kiểm tra kết nối Oracle"; }
+<div class="page-heading"><div><h1>Kết nối cơ sở dữ liệu</h1><p>Kiểm tra ứng dụng có đăng nhập được schema Oracle hay không.</p></div></div>
+<div class="panel connection-panel">
+    <div class="connection-symbol">◉</div>
+    <h2>Kết quả kiểm tra</h2>
+    <div class="connection-result">@ViewBag.Status</div>
+    @if (ViewBag.Pdb != null) { <p>Pluggable Database hiện tại: <b>@ViewBag.Pdb</b></p> }
+    @if (ViewBag.Error != null) { <div class="alert danger">@ViewBag.Error</div> }
+    <p class="muted">Ứng dụng dùng schema nghiệp vụ QL_VANTAI, không sử dụng tài khoản SYS.</p>
+    <a class="btn primary" href="@Url.Action("Index","Home")">Quay lại Dashboard</a>
+</div>

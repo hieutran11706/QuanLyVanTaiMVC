@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title - Vận Tải 24</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/site.css")" />
+</head>
+<body>
+<div class="shell">
+    <aside class="sidebar">
+        <div class="brand"><span class="brand-mark">VT</span><span>VẬN TẢI 24<small>LOGISTICS MANAGEMENT</small></span></div>
+        <div class="nav-caption">TỔNG QUAN</div>
+        <a class="nav-link" href="@Url.Action("Index","Home")">▦ <span>Dashboard</span></a>
+        <div class="nav-caption">VẬN HÀNH</div>
+        <a class="nav-link" href="@Url.Action("Index","Orders")">▤ <span>Đơn hàng</span></a>
+        <a class="nav-link" href="#">⇄ <span>Chuyến xe</span><em>Sắp triển khai</em></a>
+        <a class="nav-link" href="#">◎ <span>Theo dõi vận chuyển</span></a>
+        <div class="nav-caption">DANH MỤC</div>
+        <a class="nav-link" href="#">♙ <span>Khách hàng</span></a>
+        <a class="nav-link" href="#">▣ <span>Kho hàng & tồn kho</span></a>
+        <a class="nav-link" href="#">▧ <span>Hàng hóa</span></a>
+        <a class="nav-link" href="#">▰ <span>Phương tiện</span></a>
+        <a class="nav-link" href="#">♧ <span>Tài xế</span></a>
+        <a class="nav-link" href="#">⌁ <span>Tuyến đường</span></a>
+        <a class="nav-link" href="#">⌖ <span>Tỉnh / thành phố</span></a>
+        <div class="nav-caption">HỆ THỐNG</div>
+        <a class="nav-link" href="@Url.Action("Connection","Home")">⚙ <span>Kết nối Oracle</span></a>
+        <div class="sidebar-foot">Oracle Database 23ai<br /><span>ASP.NET MVC 5 · .NET 4.8</span></div>
+    </aside>
+    <main class="main">
+        <header class="topbar">
+            <div><div class="eyebrow">HỆ THỐNG QUẢN LÝ VẬN TẢI</div><strong>@ViewBag.Title</strong></div>
+            <div class="user-chip"><span class="user-avatar">AD</span><span>Quản trị viên<small>Điều hành hệ thống</small></span></div>
+        </header>
+        <section class="content">
+            @if (TempData["Success"] != null) { <div class="alert success">@TempData["Success"]</div> }
+            @if (TempData["Error"] != null) { <div class="alert danger">@TempData["Error"]</div> }
+            @RenderBody()
+        </section>
+        <footer>© 2026 Vận Tải 24 · Hệ thống quản lý vận tải hàng hóa liên tỉnh</footer>
+    </main>
+</div>
+</body>
+</html>

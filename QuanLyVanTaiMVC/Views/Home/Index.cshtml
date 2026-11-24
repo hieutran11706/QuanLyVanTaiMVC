@@ -1,0 +1,34 @@
+@model QuanLyVanTaiMVC.Models.DashboardViewModel
+@{
+    ViewBag.Title = "Tổng quan";
+}
+<div class="page-heading">
+    <div><h1>Tổng quan hoạt động</h1><p>Theo dõi tình hình vận tải và đơn hàng trên toàn hệ thống.</p></div>
+    <a class="btn primary" href="@Url.Action("Index","Orders")">Quản lý đơn hàng <b>→</b></a>
+</div>
+@if (ViewBag.DbError != null) {
+    <div class="alert danger"><b>Chưa đọc được dữ liệu Oracle.</b><br />@ViewBag.DbError<br /><a href="@Url.Action("Connection")">Kiểm tra kết nối</a> và kiểm tra chuỗi kết nối trong Web.config.</div>
+}
+<div class="status-line"><span class="status-dot"></span>@(Model.DatabaseStatus ?? "Đang kiểm tra CSDL") <a href="@Url.Action("Connection")">Kiểm tra chi tiết</a></div>
+<div class="stats-grid">
+    <div class="stat-card"><div class="stat-label">TỔNG ĐƠN HÀNG</div><div class="stat-number">@Model.Orders</div><div class="stat-foot">Tất cả đơn trong hệ thống</div><span class="stat-icon blue">▤</span></div>
+    <div class="stat-card"><div class="stat-label">ĐANG VẬN CHUYỂN</div><div class="stat-number">@Model.ShippingOrders</div><div class="stat-foot">Đơn đang trên tuyến</div><span class="stat-icon orange">⇢</span></div>
+    <div class="stat-card"><div class="stat-label">ĐÃ GIAO THÀNH CÔNG</div><div class="stat-number">@Model.DeliveredOrders</div><div class="stat-foot">Đơn hoàn tất</div><span class="stat-icon green">✓</span></div>
+    <div class="stat-card"><div class="stat-label">DOANH THU ĐÃ GIAO</div><div class="stat-number money">@Model.Revenue.ToString("N0")<small> đ</small></div><div class="stat-foot">Tổng tiền đơn đã giao</div><span class="stat-icon purple">₫</span></div>
+</div>
+<div class="section-title"><div><h2>Tình hình đơn hàng</h2><p>Phân loại theo trạng thái hiện tại trong bảng DONHANG.</p></div></div>
+<div class="status-grid">
+    <div class="status-card"><span class="pill gray">Mới tạo</span><strong>@Model.NewOrders</strong><small>MOI_TAO</small></div>
+    <div class="status-card"><span class="pill blue-pill">Đang xử lý</span><strong>@Model.ProcessingOrders</strong><small>DANG_XU_LY</small></div>
+    <div class="status-card"><span class="pill orange-pill">Đang vận chuyển</span><strong>@Model.ShippingOrders</strong><small>DANG_VAN_CHUYEN</small></div>
+    <div class="status-card"><span class="pill green-pill">Đã giao</span><strong>@Model.DeliveredOrders</strong><small>DA_GIAO</small></div>
+</div>
+<div class="section-title"><div><h2>Quy mô dữ liệu</h2><p>Số lượng bản ghi đọc trực tiếp từ Oracle.</p></div></div>
+<div class="data-grid">
+    <div class="data-tile"><span>Khách hàng</span><b>@Model.Customers</b></div>
+    <div class="data-tile"><span>Hàng hóa</span><b>@Model.Products</b></div>
+    <div class="data-tile"><span>Kho hàng</span><b>@Model.Warehouses</b></div>
+    <div class="data-tile"><span>Phương tiện</span><b>@Model.Vehicles</b></div>
+    <div class="data-tile"><span>Tài xế</span><b>@Model.Drivers</b></div>
+    <div class="data-tile"><span>Chuyến xe</span><b>@Model.Trips</b></div>
+</div>
